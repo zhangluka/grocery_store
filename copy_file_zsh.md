@@ -38,7 +38,12 @@ syncdir() {
     return 1
   fi
   mkdir -p "$2"
-  rsync -av "$1/" "$2/"
+  rsync -av \
+    --exclude='.git/' \
+    --exclude='.gitignore' \
+    --exclude='.gitattributes' \
+    --exclude='.gitmodules' \
+    "$1/" "$2/"
 }
 ```
 
@@ -53,3 +58,4 @@ syncdir /project/A /project/B
 ```
 
 执行后会显示同步了哪些文件，B 目录不存在时会自动创建。
+不会复制 .git/、.gitignore、.gitattributes、.gitmodules
